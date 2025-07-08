@@ -1,0 +1,965 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethan's Joinery - Professional Woodwork &amp; Custom Carpentry</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Warm Rustic Wood Palette
+                        walnut: {
+                            primary: '#A77B4D',    // Warm Walnut
+                            light: '#E7D7C1',      // Driftwood Beige  
+                            dark: '#4A3221',       // Charred Bark
+                            accent: '#C59A6A',     // Soft Amber
+                            muted: '#7B5E45',      // Smoky Tan
+                            cream: '#F3E6D4',      // Creamwood
+                        }
+                    },
+                    fontFamily: {
+                        'display': ['Playfair Display', 'serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, #f5f1ea 0%, #e8dcc9 100%);
+        }
+        .testimonial-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        .dark .testimonial-card {
+            background: rgba(24, 24, 24, 0.9);
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* Modern Glass/Wood UI Effects */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dark .glass-card {
+            background: rgba(24, 24, 24, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="wood" patternUnits="userSpaceOnUse" width="100" height="100"><rect width="100" height="100" fill="%23f5f1ea"/><path d="M0 20c20-5 40 5 60 0s40-5 40-5v10c-20 5-40-5-60 0s-40 5-40 5z" fill="%23e8dcc9" opacity="0.3"/><path d="M0 40c15-3 35 3 50 0s35-3 50 0v8c-15 3-35-3-50 0s-35 3-50 0z" fill="%23d4c0a1" opacity="0.2"/><path d="M0 60c25-7 50 7 75 0s25-7 25-7v12c-25 7-50-7-75 0s-25 7-25 7z" fill="%23b89d72" opacity="0.15"/></pattern></defs><rect width="100" height="100" fill="url(%23wood)"/></svg>');
+            background-size: 200px 200px;
+            opacity: 0.1;
+            z-index: -1;
+            filter: blur(1px);
+        }
+        
+        .service-card {
+            transform: translateY(0) rotateX(0) rotateY(0);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-15px) rotateX(5deg) rotateY(5deg) scale(1.05);
+            box-shadow: 0 25px 50px rgba(139, 115, 85, 0.3);
+        }
+        
+        .service-card:hover::before {
+            opacity: 0.2;
+        }
+        
+        .service-icon {
+            transform: translateZ(50px);
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover .service-icon {
+            transform: translateZ(80px) scale(1.1);
+        }
+        
+        .glass-nav {
+            background: rgba(231, 215, 193, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(167, 123, 77, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .glass-nav::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(199, 154, 106, 0.1), 
+                transparent
+            );
+            transition: left 3s ease-in-out;
+        }
+        
+        .glass-nav:hover::before {
+            left: 100%;
+        }
+        
+        /* Navigation Link Animations */
+        .nav-link {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #A77B4D, #C59A6A, #A77B4D);
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-link:hover::before {
+            left: 0;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: rgba(167, 123, 77, 0.3);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* Logo Animation */
+        .logo-container {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .logo-container:hover {
+            transform: translateY(-1px);
+        }
+        
+        .logo-container:hover .logo-icon {
+            animation: hammer-tap 0.6s ease-in-out;
+        }
+        
+        @keyframes hammer-tap {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg) scale(1.1); }
+            75% { transform: rotate(5deg) scale(1.05); }
+        }
+        
+        /* Wood Grain Texture Animation */
+        .wood-grain-nav {
+            background-image: 
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(167, 123, 77, 0.03) 0px,
+                    rgba(167, 123, 77, 0.03) 1px,
+                    transparent 1px,
+                    transparent 8px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(199, 154, 106, 0.02) 0px,
+                    rgba(199, 154, 106, 0.02) 1px,
+                    transparent 1px,
+                    transparent 12px
+                );
+            animation: wood-grain-shift 8s ease-in-out infinite;
+        }
+        
+        @keyframes wood-grain-shift {
+            0%, 100% { background-position: 0 0, 0 0; }
+            50% { background-position: 8px 0, 0 6px; }
+        }
+        
+        .modern-gradient {
+            background: linear-gradient(135deg, 
+                rgba(245, 241, 234, 0.9) 0%, 
+                rgba(232, 220, 201, 0.9) 50%, 
+                rgba(212, 192, 161, 0.9) 100%);
+        }
+        
+        .dark .modern-gradient {
+            background: linear-gradient(135deg, 
+                rgba(24, 24, 24, 0.9) 0%, 
+                rgba(45, 45, 45, 0.9) 50%, 
+                rgba(66, 66, 66, 0.9) 100%);
+        }
+        
+        .testimonial-glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .dark .testimonial-glass {
+            background: rgba(24, 24, 24, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .testimonial-glass:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(139, 115, 85, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full glass-nav wood-grain-nav shadow-2xl z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="logo-container flex items-center space-x-2">
+                    <div class="logo-icon w-8 h-8 bg-walnut-primary rounded-lg flex items-center justify-center">
+                        <i data-lucide="hammer" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span class="font-display text-xl font-bold text-walnut-dark">Ethan's Joinery</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#home" class="nav-link font-body text-walnut-dark hover:text-walnut-primary transition-colors">Home</a>
+                    <a href="#services" class="nav-link font-body text-walnut-dark hover:text-walnut-primary transition-colors">Services</a>
+                    <a href="#about" class="nav-link font-body text-walnut-dark hover:text-walnut-primary transition-colors">About</a>
+                    <a href="#portfolio" class="nav-link font-body text-walnut-dark hover:text-walnut-primary transition-colors">Portfolio</a>
+                    <a href="#booking" class="nav-link font-body text-walnut-dark hover:text-walnut-primary transition-colors">Booking</a>
+                    <a href="#contact" class="nav-link font-body text-walnut-dark hover:text-walnut-primary transition-colors">Contact</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden p-2">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-900 shadow-lg">
+            <div class="px-4 py-2 space-y-2">
+                <a href="#home" class="block py-2 text-gray-700 dark:text-gray-300 hover:text-wood-600">Home</a>
+                <a href="#services" class="block py-2 text-gray-700 dark:text-gray-300 hover:text-wood-600">Services</a>
+                <a href="#about" class="block py-2 text-gray-700 dark:text-gray-300 hover:text-wood-600">About</a>
+                <a href="#portfolio" class="block py-2 text-gray-700 dark:text-gray-300 hover:text-wood-600">Portfolio</a>
+                <a href="#booking" class="block py-2 text-gray-700 dark:text-gray-300 hover:text-wood-600">Booking</a>
+                <a href="#contact" class="block py-2 text-gray-700 dark:text-gray-300 hover:text-wood-600">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative pt-20 pb-16 min-h-screen flex items-center">
+        <!-- Wood texture background with gradient overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://pfst.cf2.poecdn.net/base/image/ea1f1136df2f2a49e4950990329219d6366f587aaa26aca0b670ef18a29094f2?w=1024&amp;h=682" alt="Wood texture background" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60"></div>
+        </div>
+        
+        <!-- Content with backdrop blur -->
+        <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="text-center py-20">
+                <div class="backdrop-blur-sm bg-white/10 rounded-3xl p-12 border border-white/20">
+                    <h1 class="font-display text-4xl md:text-6xl font-bold text-walnut-cream mb-6 animate-fade-in-up drop-shadow-2xl">
+                        Expert Joinery &amp; <br><span class="text-walnut-accent">Custom Carpentry</span>
+                    </h1>
+                    <p class="font-body text-xl text-walnut-cream/90 mb-8 max-w-2xl mx-auto animate-fade-in-up drop-shadow-lg">
+                        Professional woodwork services for your home and property. From custom furniture to kitchen installations, I bring craftsmanship and quality to every project.
+                    </p>
+                    <div class="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center animate-fade-in-up">
+                        <a href="#booking" class="inline-block bg-walnut-primary hover:bg-walnut-dark text-white px-8 py-3 rounded-lg text-lg font-semibold transition-all shadow-2xl hover:shadow-walnut-primary/25 hover:scale-105">
+                            Book Consultation
+                        </a>
+                        <a href="#portfolio" class="inline-block border-2 border-white/50 text-white hover:bg-white/20 hover:text-white px-8 py-3 rounded-lg text-lg font-semibold transition-all backdrop-blur-sm">
+                            View Portfolio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16 bg-walnut-light">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="font-display text-3xl md:text-4xl font-bold text-walnut-dark mb-4">Services Offered</h2>
+                <p class="font-body text-xl text-walnut-muted">Comprehensive joinery solutions for all your needs</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass-card service-card p-8 rounded-xl shadow-2xl">
+                    <div class="service-icon w-16 h-16 bg-gradient-to-br from-walnut-primary to-walnut-dark rounded-xl flex items-center justify-center mb-6 mx-auto">
+                        <i data-lucide="home" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold mb-4 text-center text-walnut-dark">Kitchen Installations</h3>
+                    <p class="font-body text-walnut-muted text-center leading-relaxed">Custom kitchen cabinets, worktops, and complete kitchen refurbishments with premium materials.</p>
+                </div>
+                <div class="glass-card service-card p-8 rounded-xl shadow-2xl">
+                    <div class="service-icon w-16 h-16 bg-gradient-to-br from-walnut-primary to-walnut-dark rounded-xl flex items-center justify-center mb-6 mx-auto">
+                        <i data-lucide="door-open" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold mb-4 text-center text-walnut-dark">Doors &amp; Windows</h3>
+                    <p class="font-body text-walnut-muted text-center leading-relaxed">Professional door hanging, window installations, and custom door frames to perfection.</p>
+                </div>
+                <div class="glass-card service-card p-8 rounded-xl shadow-2xl">
+                    <div class="service-icon w-16 h-16 bg-gradient-to-br from-walnut-primary to-walnut-dark rounded-xl flex items-center justify-center mb-6 mx-auto">
+                        <i data-lucide="cabinet" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold mb-4 text-center text-walnut-dark">Custom Furniture</h3>
+                    <p class="font-body text-walnut-muted text-center leading-relaxed">Bespoke wardrobes, shelving units, and fitted furniture solutions tailored to your space.</p>
+                </div>
+                <div class="glass-card service-card p-8 rounded-xl shadow-2xl">
+                    <div class="service-icon w-16 h-16 bg-gradient-to-br from-walnut-primary to-walnut-dark rounded-xl flex items-center justify-center mb-6 mx-auto">
+                        <i data-lucide="stairs" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold mb-4 text-center text-walnut-dark">Staircases</h3>
+                    <p class="font-body text-walnut-muted text-center leading-relaxed">Beautiful staircase repairs, replacements, and custom wooden stairs with traditional craftsmanship.</p>
+                </div>
+                <div class="glass-card service-card p-8 rounded-xl shadow-2xl">
+                    <div class="service-icon w-16 h-16 bg-gradient-to-br from-walnut-primary to-walnut-dark rounded-xl flex items-center justify-center mb-6 mx-auto">
+                        <i data-lucide="wrench" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold mb-4 text-center text-walnut-dark">Repairs &amp; Maintenance</h3>
+                    <p class="font-body text-walnut-muted text-center leading-relaxed">Comprehensive carpentry repairs and ongoing maintenance services for lasting quality.</p>
+                </div>
+                <div class="glass-card service-card p-8 rounded-xl shadow-2xl">
+                    <div class="service-icon w-16 h-16 bg-gradient-to-br from-walnut-primary to-walnut-dark rounded-xl flex items-center justify-center mb-6 mx-auto">
+                        <i data-lucide="hammer" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold mb-4 text-center text-walnut-dark">Bespoke Projects</h3>
+                    <p class="font-body text-walnut-muted text-center leading-relaxed">Unique custom woodwork projects designed and crafted specifically for your vision.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="font-display text-3xl md:text-4xl font-bold text-walnut-dark mb-6">About Ethan</h2>
+                    <p class="font-body text-lg text-walnut-muted mb-6">
+                        With over 15 years of experience in joinery and carpentry, I'm passionate about creating beautiful, functional woodwork that stands the test of time. As a qualified joiner, I take pride in delivering exceptional craftsmanship on every project.
+                    </p>
+                    <p class="font-body text-lg text-walnut-muted mb-6">
+                        I work closely with homeowners throughout the process, from initial consultation to project completion, ensuring your vision becomes reality. Quality materials, attention to detail, and customer satisfaction are at the heart of everything I do.
+                    </p>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-walnut-accent"></i>
+                            <span class="font-body text-walnut-dark">15+ Years Experience</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-walnut-accent"></i>
+                            <span class="font-body text-walnut-dark">Fully Qualified &amp; Insured</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-walnut-accent"></i>
+                            <span class="font-body text-walnut-dark">Free Consultations</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-walnut-accent"></i>
+                            <span class="font-body text-walnut-dark">Quality Guarantee</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="w-64 h-64 mx-auto rounded-full overflow-hidden shadow-2xl border-4 border-walnut-light">
+                        <img src="https://pfst.cf2.poecdn.net/base/image/d284625ffbefbc013e81ac895abb8d62e418f8be1af9d5bff7143a71f38b4311?w=591&amp;h=1280" alt="Ethan Richardson" class="w-full h-full object-cover">
+                    </div>
+                    <p class="font-display mt-4 text-lg font-semibold text-walnut-dark">Ethan Richardson</p>
+                    <p class="font-body text-walnut-muted">Master Joiner &amp; Carpenter</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio/Testimonials Section -->
+    <section id="portfolio" class="py-16 bg-walnut-light">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="font-display text-3xl md:text-4xl font-bold text-walnut-dark mb-4">Recent Work &amp; Testimonials</h2>
+                <p class="font-body text-xl text-walnut-muted">See what my satisfied customers have to say</p>
+            </div>
+            
+            <!-- Portfolio Grid -->
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="glass-card rounded-xl overflow-hidden shadow-2xl transition-all hover:scale-105">
+                    <div class="h-48 relative">
+                        <img src="https://images.unsplash.com/photo-1556912173-46c336c7fd55?w=500&amp;h=300&amp;fit=crop&amp;crop=center" alt="Custom Kitchen Installation" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                    </div>
+                    <div class="p-6 backdrop-blur-sm bg-white/90">
+                        <h3 class="font-display font-bold text-lg mb-2 text-walnut-dark">Custom Kitchen Installation</h3>
+                        <p class="font-body text-sm text-walnut-muted">Complete kitchen refurbishment with custom cabinets and oak worktops.</p>
+                    </div>
+                </div>
+                <div class="glass-card rounded-xl overflow-hidden shadow-2xl transition-all hover:scale-105">
+                    <div class="h-48 relative">
+                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500&amp;h=300&amp;fit=crop&amp;crop=center" alt="Fitted Wardrobes" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                    </div>
+                    <div class="p-6 backdrop-blur-sm bg-white/90">
+                        <h3 class="font-display font-bold text-lg mb-2 text-walnut-dark">Fitted Wardrobes</h3>
+                        <p class="font-body text-sm text-walnut-muted">Bespoke bedroom wardrobes with sliding doors and internal organization.</p>
+                    </div>
+                </div>
+                <div class="glass-card rounded-xl overflow-hidden shadow-2xl transition-all hover:scale-105">
+                    <div class="h-48 relative">
+                        <img src="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?w=500&amp;h=300&amp;fit=crop&amp;crop=center" alt="Staircase Renovation" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                    </div>
+                    <div class="p-6 backdrop-blur-sm bg-white/90">
+                        <h3 class="font-display font-bold text-lg mb-2 text-walnut-dark">Staircase Renovation</h3>
+                        <p class="font-body text-sm text-walnut-muted">Traditional oak staircase with custom spindles and handrail.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonials -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="testimonial-glass p-8 rounded-xl">
+                    <div class="flex mb-6 justify-center">
+                        <i data-lucide="star" class="w-6 h-6 text-yellow-400 fill-current"></i>
+                        <i data-lucide="star" class="w-6 h-6 text-yellow-400 fill-current"></i>
+                        <i data-lucide="star" class="w-6 h-6 text-yellow-400 fill-current"></i>
+                        <i data-lucide="star" class="w-6 h-6 text-yellow-400 fill-current"></i>
+                        <i data-lucide="star" class="w-6 h-6 text-yellow-400 fill-current"></i>
+                    </div>
+                    <p class="text-gray-800 dark:text-gray-200 mb-6 text-center italic leading-relaxed">"Ethan did an absolutely fantastic job on our kitchen. The attention to detail is incredible and he really listened to what we wanted. Highly recommended!"</p>
+                    <div class="text-center">
+                        <p class="font-bold text-lg">Sarah Mitchell</p>
+                        <p class="text-sm text-wood-600 dark:text-wood-400 font-medium">Kitchen Renovation</p>
+                    </div>
+                </div>
+                <div class="testimonial-glass p-8 rounded-xl">
+                    <div class="flex mb-6 justify-center">
+                        <i data-lucide="star" class="w-6 h-6 text-yellow-400 fill-current"></i>
+                        <i data-lucide="star" class="w-6 h-6 text-yellow-400 fill-current"></i>
+                        <i data-lucide="star" class="w-6 h-6 text-yellow-400 fill-current"></i>
+                        <i data-lucide="star" class="w-6 h-6 text-yellow-400 fill-current"></i>
+                        <i data-lucide="star" class="w-6 h-6 text-yellow-400 fill-current"></i>
+                    </div>
+                    <p class="text-gray-800 dark:text-gray-200 mb-6 text-center italic leading-relaxed">"Professional, reliable, and excellent craftsmanship. Ethan built us beautiful fitted wardrobes that have completely transformed our bedroom."</p>
+                    <div class="text-center">
+                        <p class="font-bold text-lg">James Cooper</p>
+                        <p class="text-sm text-wood-600 dark:text-wood-400 font-medium">Fitted Wardrobes</p>
+                    </div>
+                </div>
+                <div class="testimonial-glass p-8 rounded-xl">
+                    <div class="flex mb-6 justify-center">
+                        <i data-lucide="star" class="w-6 h-6 text-yellow-400 fill-current"></i>
+                        <i data-lucide="star" class="w-6 h-6 text-yellow-400 fill-current"></i>
+                        <i data-lucide="star" class="w-6 h-6 text-yellow-400 fill-current"></i>
+                        <i data-lucide="star" class="w-6 h-6 text-yellow-400 fill-current"></i>
+                        <i data-lucide="star" class="w-6 h-6 text-yellow-400 fill-current"></i>
+                    </div>
+                    <p class="text-gray-800 dark:text-gray-200 mb-6 text-center italic leading-relaxed">"Ethan was recommended by a friend and I can see why. Quality work, fair pricing, and completed on time. Will definitely use again."</p>
+                    <div class="text-center">
+                        <p class="font-bold text-lg">Emma Davies</p>
+                        <p class="text-sm text-wood-600 dark:text-wood-400 font-medium">Door Installation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking" class="py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Book a Consultation</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400">Let's discuss your joinery project - free consultation available</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Booking Form -->
+                <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-6">Get a Quote</h3>
+                    <form id="booking-form" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Name *</label>
+                            <input type="text" required="" class="w-full text-base px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-wood-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Email *</label>
+                            <input type="email" required="" class="w-full text-base px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-wood-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Phone</label>
+                            <input type="tel" class="w-full text-base px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-wood-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Project Type *</label>
+                            <select required="" class="w-full text-base px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-wood-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                                <option value="">Select a service</option>
+                                <option value="kitchen">Kitchen Installation</option>
+                                <option value="doors-windows">Doors &amp; Windows</option>
+                                <option value="furniture">Custom Furniture</option>
+                                <option value="stairs">Staircases</option>
+                                <option value="repairs">Repairs &amp; Maintenance</option>
+                                <option value="bespoke">Bespoke Project</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Preferred Date</label>
+                            <input type="date" class="w-full text-base px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-wood-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Project Details</label>
+                            <textarea rows="4" class="w-full text-base px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-wood-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white" placeholder="Tell me about your project..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-wood-600 hover:bg-wood-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                            Send Inquiry
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Calendar Preview -->
+                <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-6">Available Times</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 bg-white dark:bg-gray-700 rounded-lg">
+                            <span>Monday - Friday</span>
+                            <span class="text-green-600 dark:text-green-400">8:00 AM - 6:00 PM</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-white dark:bg-gray-700 rounded-lg">
+                            <span>Saturday</span>
+                            <span class="text-green-600 dark:text-green-400">9:00 AM - 4:00 PM</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-white dark:bg-gray-700 rounded-lg">
+                            <span>Sunday</span>
+                            <span class="text-red-600 dark:text-red-400">Closed</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h4 class="font-semibold mb-4">Service Areas</h4>
+                        <div class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                            <p>• Birmingham &amp; Surrounding Areas</p>
+                            <p>• Solihull &amp; South Birmingham</p>
+                            <p>• Warwickshire (within 25 miles)</p>
+                            <p>• Travel charges may apply for distant locations</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 p-4 bg-wood-50 dark:bg-wood-900/30 rounded-lg">
+                        <p class="text-sm text-wood-800 dark:text-wood-200">
+                            <i data-lucide="info" class="w-4 h-4 inline mr-2"></i>
+                            Free consultation for all projects. I'll provide a detailed quote after our initial discussion.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-gray-50 dark:bg-gray-800">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Get In Touch</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400">Ready to start your project? Contact me today</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-lg">
+                    <div class="w-12 h-12 bg-wood-100 dark:bg-wood-800 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="phone" class="w-6 h-6 text-wood-600"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Phone</h3>
+                    <p class="text-gray-600 dark:text-gray-400">07123 456 789</p>
+                </div>
+                <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-lg">
+                    <div class="w-12 h-12 bg-wood-100 dark:bg-wood-800 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="mail" class="w-6 h-6 text-wood-600"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Email</h3>
+                    <p class="text-gray-600 dark:text-gray-400">ethan@ethansjoinery.co.uk</p>
+                </div>
+                <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-lg">
+                    <div class="w-12 h-12 bg-wood-100 dark:bg-wood-800 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="map-pin" class="w-6 h-6 text-wood-600"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Location</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Birmingham, UK</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-wood-800 text-white py-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-wood-600 rounded-lg flex items-center justify-center">
+                            <i data-lucide="hammer" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold">Ethan's Joinery</span>
+                    </div>
+                    <p class="text-wood-200">Professional joinery and carpentry services in Birmingham and surrounding areas.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <div class="space-y-2">
+                        <a href="#services" class="block text-wood-200 hover:text-white transition-colors">Services</a>
+                        <a href="#about" class="block text-wood-200 hover:text-white transition-colors">About</a>
+                        <a href="#portfolio" class="block text-wood-200 hover:text-white transition-colors">Portfolio</a>
+                        <a href="#booking" class="block text-wood-200 hover:text-white transition-colors">Booking</a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Info</h3>
+                    <div class="space-y-2 text-wood-200">
+                        <p>📱 07123 456 789</p>
+                        <p>✉️ ethan@ethansjoinery.co.uk</p>
+                        <p>📍 Birmingham, UK</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-wood-700 mt-8 pt-8 text-center text-wood-200">
+                <p>© 2024 Ethan's Joinery. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Chatbot Button -->
+    <button id="chatbot-btn" class="fixed bottom-6 right-6 w-14 h-14 bg-wood-600 hover:bg-wood-700 text-white rounded-full shadow-lg flex items-center justify-center transition-all z-50">
+        <i data-lucide="message-circle" class="w-6 h-6"></i>
+    </button>
+
+    <!-- Chatbot Modal -->
+    <div id="chatbot-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md h-96 flex flex-col">
+            <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                <h3 class="text-lg font-semibold">Ask Ethan's Assistant</h3>
+                <button id="close-chatbot" class="text-gray-500 hover:text-gray-700">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3">
+                <div class="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg">
+                    <p class="text-sm">Hello! I'm Ethan's virtual assistant. I can help answer questions about services, pricing, availability, and more. What would you like to know?</p>
+                </div>
+            </div>
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex space-x-2">
+                    <input id="chat-input" type="text" placeholder="Ask a question..." class="flex-1 text-base px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-wood-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                    <button id="send-chat" class="px-4 py-2 bg-wood-600 hover:bg-wood-700 text-white rounded-lg transition-colors">
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons with error handling
+        function initializeIcons() {
+            if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                lucide.createIcons();
+            } else {
+                console.warn('Lucide icons not loaded, retrying...');
+                setTimeout(initializeIcons, 100);
+            }
+        }
+        
+        // Wait for page to load before initializing icons
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeIcons);
+        } else {
+            initializeIcons();
+        }
+
+        // Dark mode detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.add('hidden');
+            });
+        });
+
+        // Booking form submission
+        document.getElementById('booking-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show success message
+            const form = e.target;
+            const originalContent = form.innerHTML;
+            
+            form.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="w-12 h-12 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="check" class="w-6 h-6 text-green-600 dark:text-green-400"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Inquiry Sent!</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">Thank you for your inquiry. I'll get back to you within 24 hours.</p>
+                    <button type="button" onclick="this.closest('form').innerHTML = \`${originalContent.replace(/`/g, '\\`')}\`; initializeIcons();" class="bg-wood-600 hover:bg-wood-700 text-white px-6 py-2 rounded-lg transition-colors">
+                        Send Another Inquiry
+                    </button>
+                </div>
+            `;
+            
+            // Re-initialize icons
+            lucide.createIcons();
+        });
+
+        // Chatbot functionality
+        const chatbotBtn = document.getElementById('chatbot-btn');
+        const chatbotModal = document.getElementById('chatbot-modal');
+        const closeChatbot = document.getElementById('close-chatbot');
+        const chatInput = document.getElementById('chat-input');
+        const sendChat = document.getElementById('send-chat');
+        const chatMessages = document.getElementById('chat-messages');
+
+        chatbotBtn.addEventListener('click', () => {
+            chatbotModal.classList.remove('hidden');
+            chatInput.focus();
+        });
+
+        closeChatbot.addEventListener('click', () => {
+            chatbotModal.classList.add('hidden');
+        });
+
+        chatbotModal.addEventListener('click', (e) => {
+            if (e.target === chatbotModal) {
+                chatbotModal.classList.add('hidden');
+            }
+        });
+
+        // Register handler for AI chatbot responses
+        if (window.Poe) {
+            window.Poe.registerHandler("joinery-chatbot", (result, context) => {
+                const msg = result.responses[0];
+                const messageId = context.messageId;
+                
+                if (msg.status === "error") {
+                    const errorDiv = document.getElementById(`temp-${messageId}`);
+                    if (errorDiv) {
+                        errorDiv.innerHTML = `
+                            <div class="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 p-3 rounded-lg">
+                                <p class="text-sm">Sorry, I'm having trouble responding right now. Please try calling or emailing directly for immediate assistance.</p>
+                            </div>
+                        `;
+                    }
+                } else if (msg.status === "incomplete") {
+                    const responseDiv = document.getElementById(`temp-${messageId}`);
+                    if (responseDiv && msg.content.trim()) {
+                        responseDiv.innerHTML = `
+                            <div class="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg">
+                                <p class="text-sm">${msg.content.replace(/\n/g, '<br>')}</p>
+                                <div class="flex items-center mt-2">
+                                    <div class="w-2 h-2 bg-wood-600 rounded-full animate-pulse"></div>
+                                    <span class="ml-2 text-xs text-gray-500">Typing...</span>
+                                </div>
+                            </div>
+                        `;
+                    }
+                } else if (msg.status === "complete") {
+                    const responseDiv = document.getElementById(`temp-${messageId}`);
+                    if (responseDiv) {
+                        responseDiv.innerHTML = `
+                            <div class="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg">
+                                <p class="text-sm">${msg.content.replace(/\n/g, '<br>')}</p>
+                            </div>
+                        `;
+                        responseDiv.removeAttribute('id');
+                    }
+                }
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            });
+        }
+
+        async function sendChatMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            // Add user message to chat
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.className = 'text-right';
+            userMessageDiv.innerHTML = `
+                <div class="bg-wood-600 text-white p-3 rounded-lg inline-block max-w-xs">
+                    <p class="text-sm">${message}</p>
+                </div>
+            `;
+            chatMessages.appendChild(userMessageDiv);
+
+            // Clear input
+            chatInput.value = '';
+
+            // Add loading response
+            const messageId = Date.now().toString();
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = `temp-${messageId}`;
+            loadingDiv.innerHTML = `
+                <div class="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg">
+                    <div class="flex items-center">
+                        <div class="w-2 h-2 bg-wood-600 rounded-full animate-pulse"></div>
+                        <span class="ml-2 text-xs text-gray-500">Thinking...</span>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(loadingDiv);
+
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Send to AI chatbot
+            if (window.Poe) {
+                try {
+                    const prompt = `@Claude-3.7-Sonnet You are Ethan's virtual assistant for Ethan's Joinery, a professional joinery and carpentry business in Birmingham, UK. Answer questions about:
+
+Services: Kitchen installations, doors & windows, custom furniture, staircases, repairs & maintenance, bespoke projects
+Working hours: Monday-Friday 8AM-6PM, Saturday 9AM-4PM, Sunday closed
+Service area: Birmingham & surrounding areas, Solihull, Warwickshire (within 25 miles)
+Contact: Phone 07123 456 789, Email ethan@ethansjoinery.co.uk
+Experience: 15+ years, fully qualified and insured, free consultations, quality guarantee
+
+Keep responses helpful, professional, and concise. If asked about pricing, mention that Ethan provides free consultations and detailed quotes. For complex questions about specific projects, suggest booking a consultation.
+
+Customer question: ${message}`;
+
+                    await window.Poe.sendUserMessage(prompt, {
+                        handler: "joinery-chatbot",
+                        stream: true,
+                        openChat: false,
+                        handlerContext: { messageId }
+                    });
+                } catch (err) {
+                    console.error("Chat error:", err);
+                    const errorDiv = document.getElementById(`temp-${messageId}`);
+                    if (errorDiv) {
+                        errorDiv.innerHTML = `
+                            <div class="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 p-3 rounded-lg">
+                                <p class="text-sm">Sorry, I'm having trouble connecting right now. Please try calling 07123 456 789 or emailing ethan@ethansjoinery.co.uk for immediate assistance.</p>
+                            </div>
+                        `;
+                    }
+                }
+            } else {
+                // Fallback response if Poe API is not available
+                setTimeout(() => {
+                    const responseDiv = document.getElementById(`temp-${messageId}`);
+                    if (responseDiv) {
+                        responseDiv.innerHTML = `
+                            <div class="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg">
+                                <p class="text-sm">Thanks for your question! For immediate assistance, please call 07123 456 789 or email ethan@ethansjoinery.co.uk. Ethan is available Monday-Friday 8AM-6PM and Saturday 9AM-4PM for free consultations.</p>
+                            </div>
+                        `;
+                        responseDiv.removeAttribute('id');
+                    }
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+            }
+        }
+
+        sendChat.addEventListener('click', sendChatMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const navHeight = document.querySelector('nav').offsetHeight;
+                    const targetPosition = target.offsetTop - navHeight - 20; // 20px extra padding
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in-up');
+                }
+            });
+        }, observerOptions);
+
+        // Observe service cards and testimonials
+        document.querySelectorAll('.grid > div, .testimonial-card').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+
+
+</body></html>
